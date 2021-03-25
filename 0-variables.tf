@@ -7,6 +7,11 @@ variable "location" {
   default = "West US"
 }
 
+variable "failover_location" {
+  type    = string
+  default = "East US"
+}
+
 variable "rg_name" {
   type    = string
   default = "ykhemani-resource-group"
