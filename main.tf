@@ -11,14 +11,25 @@ provider "azurerm" {
   features {}
 }
 
+data terraform_remote_state foundation {
+  backend = "remote"
+  config  = {
+    hostname     = var.tfe_hostname
+    organization = var.org
+    workspaces   = {
+      name       = var.foundation_workspace
+    }
+  }
+}
+
 data "azurerm_resource_group" "rg" {
   name                      = var.rg_name
 }
 
 resource "azurerm_cosmosdb_account" "account" {
   name                      = var.cosmos_db_account_name
-  location                  = data.azurerm_resource_group.rg.location
-  resource_group_name       = data.azurerm_resource_group.rg.name
+  location                  = data.terraform_remote_state.foundation.outputs.rg_location
+  resource_group_name       = data.terraform_remote_state.foundation.outputs.rg_name
   offer_type                = var.cosmosdb_offer_type
   kind                      = var.cosmosdb_kind
 
@@ -26,6 +37,10 @@ resource "azurerm_cosmosdb_account" "account" {
 
   tags = {
     owner                   = var.owner
+    se-region               = var.se-region
+    purpose                 = var.purpose
+    ttl                     = var.ttl
+    terraform               = "true"
   }
 
   consistency_policy {
@@ -34,13 +49,8 @@ resource "azurerm_cosmosdb_account" "account" {
     max_staleness_prefix    = 200
   }
 
-  # geo_location {
-  #   location                = var.failover_location
-  #   failover_priority       = 1
-  # }
-
   geo_location {
-    location                = data.azurerm_resource_group.rg.location
+    location                = data.terraform_remote_state.foundation.outputs.rg_location
     failover_priority       = 0
   }
 
