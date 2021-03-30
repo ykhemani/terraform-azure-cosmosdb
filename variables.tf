@@ -22,7 +22,7 @@ variable tfe_hostname {
   default     = "https://app.terraform.io"
 }
 
-variable tfe_org {
+variable org {
   type        = string
   description = "Name of organization where foundation_workspace exists."
 }
@@ -32,19 +32,9 @@ variable foundation_workspace {
   description = "Name of Azure Foundation workspace where the resource group, vnet and subnet exist."
 }
 
-variable "location" {
-  type        = string
-  default     = "West US"
-}
-
 variable "failover_location" {
   type        = string
   default     = "East US"
-}
-
-variable "rg_name" {
-  type        = string
-  default     = "ykhemani-resource-group"
 }
 
 variable "cosmos_db_account_name" {

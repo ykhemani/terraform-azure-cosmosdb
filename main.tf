@@ -22,10 +22,6 @@ data terraform_remote_state foundation {
   }
 }
 
-data "azurerm_resource_group" "rg" {
-  name                      = var.rg_name
-}
-
 resource "azurerm_cosmosdb_account" "account" {
   name                      = var.cosmos_db_account_name
   location                  = data.terraform_remote_state.foundation.outputs.rg_location
