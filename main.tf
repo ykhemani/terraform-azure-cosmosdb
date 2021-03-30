@@ -14,7 +14,6 @@ provider "azurerm" {
 data terraform_remote_state foundation {
   backend = "remote"
   config  = {
-    hostname     = var.tfe_hostname
     organization = var.org
     workspaces   = {
       name       = var.foundation_workspace

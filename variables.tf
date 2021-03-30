@@ -16,12 +16,6 @@ variable ttl {
   default = "24"
 }
 
-variable tfe_hostname {
-  type        = string
-  description = "Terraform Enterprise endpoint."
-  default     = "https://app.terraform.io"
-}
-
 variable org {
   type        = string
   description = "Name of organization where foundation_workspace exists."
